@@ -10,6 +10,7 @@
 #include <Cocoa/Cocoa.h>
 
 #include <QtGui/QGuiApplication>
+#include <QDebug>
 
 #include "qwkglobal_p.h"
 #include "systemwindow_p.h"
@@ -227,11 +228,13 @@ namespace QWK {
 
             auto viewSize =
                 nswindow.contentView ? nswindow.contentView.frame.size : nswindow.frame.size;
-            QPoint center = screenRectCallback(QSize(viewSize.width, titlebarHeight)).center();
+            QPoint center = QPoint(76, 48).center();//screenRectCallback(QSize(viewSize.width, titlebarHeight)).center();
 
             // The origin of the NSWindow coordinate system is in the lower left corner, we
             // do the necessary transformations
             center.ry() = titlebarHeight - center.y();
+
+            qInfo() << "[DBG] Updating system button rect:" << titleBarHeight << viewSize << center << width << height;
 
             // Mid button
             NSPoint centerOrigin = {
