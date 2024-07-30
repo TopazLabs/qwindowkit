@@ -222,7 +222,7 @@ namespace QWK {
             auto titlebar = rightButton.superview;
             int titlebarHeight = 48;//titlebar.frame.size.height;
 
-            rightButton.superview.height = 48;
+            [rightButton.superview setFrameSize:NSMakeSize(76, 48)];
 
             auto spacing = midButton.frame.origin.x - leftButton.frame.origin.x;
             auto width = midButton.frame.size.width;
