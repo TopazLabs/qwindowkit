@@ -724,7 +724,7 @@ namespace QWK {
         Q_UNUSED(oldAttribute)
 
         if (key == QStringLiteral("no-system-buttons")) {
-            if (attribute.type() != QVariant::Bool)
+            if (attribute.typeId() != QMetaType::Bool)
                 return false;
             ensureWindowProxy(m_windowId)->setSystemButtonVisible(!attribute.toBool());
             return true;
@@ -732,14 +732,14 @@ namespace QWK {
 
         if (key == QStringLiteral("blur-effect")) {
             auto mode = NSWindowProxy::BlurMode::None;
-            if (attribute.type() == QVariant::Bool) {
+            if (attribute.typeId() == QMetaType::Bool) {
                 if (attribute.toBool()) {
                     NSString *osxMode =
                         [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
                     mode = [osxMode isEqualToString:@"Dark"] ? NSWindowProxy::BlurMode::Dark
                                                              : NSWindowProxy::BlurMode::Light;
                 }
-            } else if (attribute.type() == QVariant::String) {
+            } else if (attribute.typeId() == QMetaType::String) {
                 auto value = attribute.toString();
                 if (value == QStringLiteral("dark")) {
                     mode = NSWindowProxy::BlurMode::Dark;
