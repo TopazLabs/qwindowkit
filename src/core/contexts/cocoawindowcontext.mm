@@ -10,6 +10,7 @@
 #include <Cocoa/Cocoa.h>
 
 #include <QtGui/QGuiApplication>
+#include <QDebug>
 
 #include "qwkglobal_p.h"
 #include "systemwindow_p.h"
@@ -185,6 +186,10 @@ namespace QWK {
                 }
 
                 default:
+                    if (!screenRectCallback || !systemButtonVisible) {
+                        return;
+                    }
+                    updateSystemButtonRect();
                     break;
             }
         }
@@ -218,6 +223,8 @@ namespace QWK {
             const auto &midButton = buttons[1];
             const auto &rightButton = buttons[2];
 
+            [rightButton.superview setFrameSize:NSMakeSize(84, 48)];
+
             auto titlebar = rightButton.superview;
             int titlebarHeight = titlebar.frame.size.height;
 
@@ -232,6 +239,18 @@ namespace QWK {
             // The origin of the NSWindow coordinate system is in the lower left corner, we
             // do the necessary transformations
             center.ry() = titlebarHeight - center.y();
+
+            QString log = QString("[DBG] Updating system button rect: TBH: %1 ViewSize: (%2, %3) Center: (%4, %5) ButtonFrame: (%6, %7) Spacing %8")
+                                .arg(titlebarHeight)
+                                .arg(viewSize.width)
+                                .arg(viewSize.height)
+                                .arg(center.x())
+                                .arg(center.y())
+                                .arg(width)
+                                .arg(height)
+                                .arg(spacing);
+
+            qInfo() << log;
 
             // Mid button
             NSPoint centerOrigin = {
@@ -709,7 +728,7 @@ namespace QWK {
         Q_UNUSED(oldAttribute)
 
         if (key == QStringLiteral("no-system-buttons")) {
-            if (attribute.type() != QVariant::Bool)
+            if (attribute.typeId() != QMetaType::Bool)
                 return false;
             ensureWindowProxy(m_windowId)->setSystemButtonVisible(!attribute.toBool());
             return true;
@@ -717,14 +736,14 @@ namespace QWK {
 
         if (key == QStringLiteral("blur-effect")) {
             auto mode = NSWindowProxy::BlurMode::None;
-            if (attribute.type() == QVariant::Bool) {
+            if (attribute.typeId() == QMetaType::Bool) {
                 if (attribute.toBool()) {
                     NSString *osxMode =
                         [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
                     mode = [osxMode isEqualToString:@"Dark"] ? NSWindowProxy::BlurMode::Dark
                                                              : NSWindowProxy::BlurMode::Light;
                 }
-            } else if (attribute.type() == QVariant::String) {
+            } else if (attribute.typeId() == QMetaType::QString) {
                 auto value = attribute.toString();
                 if (value == QStringLiteral("dark")) {
                     mode = NSWindowProxy::BlurMode::Dark;
