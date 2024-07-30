@@ -228,7 +228,7 @@ namespace QWK {
 
             auto viewSize =
                 nswindow.contentView ? nswindow.contentView.frame.size : nswindow.frame.size;
-            QPoint center = QPoint(76, 48).center();//screenRectCallback(QSize(viewSize.width, titlebarHeight)).center();
+            QPoint center = QRect(0, 0, 84, 48).center();//screenRectCallback(QSize(viewSize.width, titlebarHeight)).center();
 
             // The origin of the NSWindow coordinate system is in the lower left corner, we
             // do the necessary transformations
