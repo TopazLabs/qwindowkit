@@ -739,7 +739,7 @@ namespace QWK {
                     mode = [osxMode isEqualToString:@"Dark"] ? NSWindowProxy::BlurMode::Dark
                                                              : NSWindowProxy::BlurMode::Light;
                 }
-            } else if (attribute.typeId() == QMetaType::String) {
+            } else if (attribute.typeId() == QMetaType::QString) {
                 auto value = attribute.toString();
                 if (value == QStringLiteral("dark")) {
                     mode = NSWindowProxy::BlurMode::Dark;
