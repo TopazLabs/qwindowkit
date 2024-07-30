@@ -222,13 +222,15 @@ namespace QWK {
             auto titlebar = rightButton.superview;
             int titlebarHeight = 48;//titlebar.frame.size.height;
 
+            rightButton.superview.height = 48;
+
             auto spacing = midButton.frame.origin.x - leftButton.frame.origin.x;
             auto width = midButton.frame.size.width;
             auto height = midButton.frame.size.height;
 
             auto viewSize =
                 nswindow.contentView ? nswindow.contentView.frame.size : nswindow.frame.size;
-            QPoint center = QRect(0, 0, 84, 48).center();//screenRectCallback(QSize(viewSize.width, titlebarHeight)).center();
+            QPoint center = screenRectCallback(QSize(viewSize.width, titlebarHeight)).center();
 
             // The origin of the NSWindow coordinate system is in the lower left corner, we
             // do the necessary transformations
@@ -243,13 +245,7 @@ namespace QWK {
                                 .arg(width)
                                 .arg(height);
 
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-            NSString *documentsDirectory = [paths objectAtIndex:0];
-            NSString *documentTXTPath = [documentsDirectory stringByAppendingPathComponent:@"qwk.txt"];
-            NSString *savedString = log.toNSString();
-            NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:documentTXTPath];
-            [myHandle seekToEndOfFile];
-            [myHandle writeData:[savedString dataUsingEncoding:NSUTF8StringEncoding]];
+            qInfo() << log;
 
             // Mid button
             NSPoint centerOrigin = {
