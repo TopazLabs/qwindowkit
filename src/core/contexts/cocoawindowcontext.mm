@@ -219,7 +219,7 @@ namespace QWK {
             const auto &rightButton = buttons[2];
 
             auto titlebar = rightButton.superview;
-            int titlebarHeight = titlebar.frame.size.height;
+            int titlebarHeight = 48;//titlebar.frame.size.height;
 
             auto spacing = midButton.frame.origin.x - leftButton.frame.origin.x;
             auto width = midButton.frame.size.width;
