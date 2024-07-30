@@ -219,10 +219,11 @@ namespace QWK {
             const auto &midButton = buttons[1];
             const auto &rightButton = buttons[2];
 
-            auto titlebar = rightButton.superview;
-            int titlebarHeight = 48;//titlebar.frame.size.height;
+            auto frameSize = rightButton.superview.frameSize;
+            [rightButton.superview setFrameSize:NSMakeSize(frameSize.width, 48)];
 
-            [rightButton.superview setFrameSize:NSMakeSize(76, 48)];
+            auto titlebar = rightButton.superview;
+            int titlebarHeight = titlebar.frame.size.height;
 
             auto spacing = midButton.frame.origin.x - leftButton.frame.origin.x;
             auto width = midButton.frame.size.width;
@@ -257,14 +258,14 @@ namespace QWK {
             // Left button
             NSPoint leftOrigin = {
                 centerOrigin.x - spacing,
-                centerOrigin.y,
+                centerOrigin.y + 10,
             };
             [leftButton setFrameOrigin:leftOrigin];
 
             // Right button
             NSPoint rightOrigin = {
                 centerOrigin.x + spacing,
-                centerOrigin.y,
+                centerOrigin.y + 20,
             };
             [rightButton setFrameOrigin:rightOrigin];
         }
