@@ -186,6 +186,10 @@ namespace QWK {
                 }
 
                 default:
+                    if (!screenRectCallback || !systemButtonVisible) {
+                        return;
+                    }
+                    updateSystemButtonRect();
                     break;
             }
         }
@@ -237,35 +241,36 @@ namespace QWK {
             // do the necessary transformations
             center.ry() = titlebarHeight - center.y();
 
-            QString log = QString("[DBG] Updating system button rect: TBH: %1 ViewSize: (%2, %3) Center: (%4, %5) ButtonFrame: (%6, %7)")
+            QString log = QString("[DBG] Updating system button rect: TBH: %1 ViewSize: (%2, %3) Center: (%4, %5) ButtonFrame: (%6, %7) Spacing %8")
                                 .arg(titlebarHeight)
                                 .arg(viewSize.width)
                                 .arg(viewSize.height)
                                 .arg(center.x())
                                 .arg(center.y())
                                 .arg(width)
-                                .arg(height);
+                                .arg(height)
+                                .arg(spacing);
 
             qInfo() << log;
 
             // Mid button
             NSPoint centerOrigin = {
                 center.x() - width / 2,
-                center.y() - height / 2,
+                center.y() - height / 2 - 1,
             };
             [midButton setFrameOrigin:centerOrigin];
 
             // Left button
             NSPoint leftOrigin = {
                 centerOrigin.x - spacing,
-                centerOrigin.y + 10,
+                centerOrigin.y,
             };
             [leftButton setFrameOrigin:leftOrigin];
 
             // Right button
             NSPoint rightOrigin = {
                 centerOrigin.x + spacing,
-                centerOrigin.y + 20,
+                centerOrigin.y,
             };
             [rightButton setFrameOrigin:rightOrigin];
         }
