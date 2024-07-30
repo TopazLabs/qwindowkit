@@ -234,14 +234,15 @@ namespace QWK {
             // do the necessary transformations
             center.ry() = titlebarHeight - center.y();
 
-            QString log = QString("[DBG] Updating system button rect: TBH: %1 ViewSize: (%2, %3) Center: %4 ButtonFrame: (%5, %6)")
+            QString log = QString("[DBG] Updating system button rect: TBH: %1 ViewSize: (%2, %3) Center: (%4, %5) ButtonFrame: (%6, %7)")
                                 .arg(titlebarHeight)
                                 .arg(viewSize.width)
                                 .arg(viewSize.height)
-                                .arg(center)
+                                .arg(center.x())
+                                .arg(center.y())
                                 .arg(width)
                                 .arg(height);
-                                
+
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
             NSString *documentTXTPath = [documentsDirectory stringByAppendingPathComponent:@"qwk.txt"];
