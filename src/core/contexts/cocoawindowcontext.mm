@@ -234,7 +234,21 @@ namespace QWK {
             // do the necessary transformations
             center.ry() = titlebarHeight - center.y();
 
-            qInfo() << "[DBG] Updating system button rect:" << titlebarHeight << viewSize.width << viewSize.height << center << width << height;
+            QString log = QString("[DBG] Updating system button rect: TBH: %1 ViewSize: (%2, %3) Center: %4 ButtonFrame: (%5, %6)")
+                                .arg(titlebarHeight)
+                                .arg(viewSize.width)
+                                .arg(viewSize.height)
+                                .arg(center)
+                                .arg(width)
+                                .arg(height);
+                                
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+            NSString *documentsDirectory = [paths objectAtIndex:0];
+            NSString *documentTXTPath = [documentsDirectory stringByAppendingPathComponent:@"qwk.txt"];
+            NSString *savedString = log.toNSString();
+            NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:documentTXTPath];
+            [myHandle seekToEndOfFile];
+            [myHandle writeData:[savedString dataUsingEncoding:NSUTF8StringEncoding]];
 
             // Mid button
             NSPoint centerOrigin = {
