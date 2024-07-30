@@ -219,8 +219,8 @@ namespace QWK {
             const auto &midButton = buttons[1];
             const auto &rightButton = buttons[2];
 
-            auto frameSize = rightButton.superview.frameSize;
-            [rightButton.superview setFrameSize:NSMakeSize(frameSize.width, 48)];
+            // auto frameSize = rightButton.superview.frameSize;
+            [rightButton.superview setFrameSize:NSMakeSize(84, 48)];
 
             auto titlebar = rightButton.superview;
             int titlebarHeight = titlebar.frame.size.height;
