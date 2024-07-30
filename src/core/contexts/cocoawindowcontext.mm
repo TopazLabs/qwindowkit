@@ -234,7 +234,7 @@ namespace QWK {
             // do the necessary transformations
             center.ry() = titlebarHeight - center.y();
 
-            qInfo() << "[DBG] Updating system button rect:" << titlebarHeight << viewSize << center << width << height;
+            qInfo() << "[DBG] Updating system button rect:" << titlebarHeight << viewSize.width << viewSize.height << center << width << height;
 
             // Mid button
             NSPoint centerOrigin = {
